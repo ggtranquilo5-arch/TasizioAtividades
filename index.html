@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício de Java + HTML</title>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; padding: 20px; background-color: #f9f9f9; }
+        .container { max-width: 500px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        h1 { color: #333; }
+        ul { list-style: none; padding: 0; }
+        li { padding: 8px 0; border-bottom: 1px solid #eee; }
+        strong { color: #0066cc; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Operações vindas do Java</h1>
+        <p>Os dados abaixo foram calculados pelo **Java** e trazidos via Script:</p>
+        
+        <ul id="resultados">
+            <li>Carregando dados do servidor Java...</li>
+        </ul>
+    </div>
+
+    <script>
+        fetch('http://localhost:8080/dados')
+            .then(resposta => resposta.json())
+            .then(dados => {
+
+                const lista = document.getElementById('resultados');
+                
+                lista.innerHTML = "";
+
+                lista.innerHTML += `<li><strong>Valor de A:</strong> ${dados.a}</li>`;
+                lista.innerHTML += `<li><strong>Valor de B:</strong> ${dados.b}</li>`;
+                lista.innerHTML += `<li><strong>Soma:</strong> ${dados.soma}</li>`;
+                lista.innerHTML += `<li><strong>Subtração:</strong> ${dados.subtracao}</li>`;
+                lista.innerHTML += `<li><strong>Multiplicação:</strong> ${dados.multiplicacao}</li>`;
+                lista.innerHTML += `<li><strong>Divisão:</strong> ${dados.divisao}</li>`;
+                
+                if(dados.a > dados.b) {
+                    lista.innerHTML += `<li><strong>Comparação:</strong> O número ${dados.a} é maior que ${dados.b}</li>`;
+                }
+            })
+            .catch(erro => {
+                document.getElementById('resultados').innerHTML = "<li>Erro: O servidor Java está desligado! Ligue-o no VS Code.</li>";
+            });
+    </script>
+
+</body>
+</html>
